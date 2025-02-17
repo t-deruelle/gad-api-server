@@ -12,7 +12,6 @@ app.use(cors());
 const API_BASE_URL = 'https://api.accept.montreal.ca/environment/collections/v1';
 const API_KEY = process.env.API_KEY;
 
-// Récupérer les billets d'autorisation
 app.get('/api/authorizations', async (req, res) => {
     try {
         const response = await axios.get(`${API_BASE_URL}/authorizations`, {
@@ -24,7 +23,6 @@ app.get('/api/authorizations', async (req, res) => {
     }
 });
 
-// Modifier un billet d'autorisation
 app.put('/api/authorizations/:id', async (req, res) => {
     try {
         const { id } = req.params;
