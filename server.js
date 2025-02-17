@@ -12,6 +12,7 @@ app.use(cors());
 const API_BASE_URL = 'https://api.accept.montreal.ca/environment/collections/v1';
 const API_KEY = process.env.API_KEY;
 
+// ✅ Correct GET route for fetching authorizations
 app.get('/api/authorizations', async (req, res) => {
     try {
         const response = await axios.get(`${API_BASE_URL}/authorizations`, {
@@ -23,6 +24,7 @@ app.get('/api/authorizations', async (req, res) => {
     }
 });
 
+// ✅ Correct PUT route for updating authorization by ID
 app.put('/api/authorizations/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -37,6 +39,11 @@ app.put('/api/authorizations/:id', async (req, res) => {
     }
 });
 
+// ✅ Default route to catch errors (Optional)
+app.get('*', (req, res) => {
+    res.status(404).json({ error: "Route not found" });
+});
+
 app.listen(PORT, () => {
-    console.log(`Serveur backend lancé sur http://localhost:${PORT}`);
+    console.log(`✅ Server running at http://localhost:${PORT}`);
 });
