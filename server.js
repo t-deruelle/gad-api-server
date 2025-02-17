@@ -15,14 +15,22 @@ const API_BASE_URL = 'https://api.accept.montreal.ca/environment/collections/v1'
 const API_KEY = process.env.API_KEY;
 
 // ✅ Correct GET route for fetching authorizations
-app.get('/api/authorizations', async (req, res) => {
+const DISPOSAL_SITE_ID = "E360-ACCEPT-50100"; // Use the correct disposal site ID
+
+app.get("/api/authorizations", async (req, res) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/authorizations`, {
-            headers: { 'Authorization': `Bearer ${API_KEY}` }
+        const response = await axios.get(`${API_BASE_URL}/v1/disposal-authorizations`, {
+            params: {
+                disposalSiteId: DISPOSAL_SITE_ID,
+                stateId: 500 // Only stateId 500 is allowed
+            },
+            headers: { "Authorization": `Bearer ${API_KEY}` }
         });
+
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ error: 'Erreur lors de la récupération des billets' });
+        console.error("Error fetching authorizations:", error.response?.data || error.message);
+        res.status(500).json({ error: "Error fetching authorizations", details: error.message });
     }
 });
 
